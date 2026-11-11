@@ -1,0 +1,14 @@
+node_modules
+ui/dist
+.env
+*.log
+.DS_Store
+
+tools/capture/node_modules
+tools/capture/.profile
+tools/capture/out
+
+# Build output and large media kept out of Git
+tools/video/build
+CODEGEIST-2026-SUBMISSION/VIDEO/*.mp4
+*.zip

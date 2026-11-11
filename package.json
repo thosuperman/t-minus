@@ -1,0 +1,31 @@
+{
+  "name": "tminus-go-live-mission-control",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "vite --config ui/vite.config.ts",
+    "build:ui": "vite build --config ui/vite.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "forge": "forge"
+  },
+  "dependencies": {
+    "@forge/api": "^8.5.0",
+    "@forge/bridge": "^7.3.0",
+    "@forge/kvs": "^2.1.2",
+    "@forge/resolver": "^2.0.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@forge/cli": "^15.1.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0"
+  }
+}
