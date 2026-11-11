@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-Minus — go-live mission control for Jira</title>
+<meta name="description" content="T-Minus turns the Jira issues of an ERP, HR or finance go-live into a live runbook with critical path, deadline margins and a rollback decision clock.">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6bff'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' text-anchor='middle' fill='white'%3ET-%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/"><span class="mark" aria-hidden="true">T&minus;</span>T-Minus</a>
+      <ul>
+        <li><a href="/#what">What it does</a></li>
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#install">Install</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">Go-live mission control for Jira</p>
+      <h1>Run the cutover minute by minute.</h1>
+      <p class="lede">T-Minus turns the Jira issues of an ERP, HR or finance go-live into a live runbook. You see what is late, what that delays downstream, and how long you still have to decide on a rollback.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#install">Install on your Jira site</a>
+        <a class="btn btn-ghost" href="#what">See what it does</a>
+      </div>
+      <p class="fine">Runs entirely on Atlassian Forge. No data leaves your Atlassian site.</p>
+      <div class="clock" aria-label="Example from the demo scenario">
+        <div class="tile warn"><div class="k">Projected finish</div><div class="v mono">07:19</div><div class="s">+1 h 33 min against baseline</div></div>
+        <div class="tile bad"><div class="k">Bank payment file cutoff</div><div class="v mono">06:22</div><div class="s">projected to be missed by 33 min</div></div>
+        <div class="tile warn"><div class="k">Rollback decision window</div><div class="v mono">27 min</div><div class="s">left to decide</div></div>
+      </div>
+      <figure class="shot">
+        <img src="/assets/board.jpg" width="1760" height="990" alt="The T-Minus board inside a Jira project: a runbook timeline with completed, running and projected steps, a data migration step running 1 hour 16 minutes over plan, two deadlines projected to be missed, and a rollback decision window of 27 minutes.">
+        <figcaption>T-Minus inside Jira, with the synthetic demo scenario.</figcaption>
+      </figure>
+    </div>
+  </div>
+</header>
+<main>
+<section id="what">
+  <div class="wrap">
+    <h2>Built for the night when everything has a deadline</h2>
+    <p class="sub">A finance or ERP cutover has dozens of timed steps across teams, a bank file cutoff, a business-open deadline, and a point after which you cannot go back. A spreadsheet and a bridge call cannot tell you how late you are. T-Minus can.</p>
+    <div class="grid">
+      <div class="card"><span class="num">01</span><h3>Live runbook</h3><p>Every step is a Jira issue. Operators start, complete and block steps; every other screen updates within seconds, and the Jira issue moves with it.</p></div>
+      <div class="card"><span class="num">02</span><h3>Slip you can trust</h3><p>After each change the schedule is recalculated: critical path, projected finish, and the margin to every deadline. Recorded facts, projections and operator estimates are labelled separately.</p></div>
+      <div class="card"><span class="num">03</span><h3>Rollback decision clock</h3><p>T-Minus shows how long you still have to decide on a rollback, and why: the point of no return, or the time a rollback needs before the window closes.</p></div>
+      <div class="card"><span class="num">04</span><h3>Go/no-go checkpoints</h3><p>Named approvers record go, conditional go or no-go with their evidence. Steps behind a checkpoint stay locked until the decision is in.</p></div>
+      <div class="card"><span class="num">05</span><h3>Audit trail</h3><p>Every action is recorded once, in order, with the server time and the person who did it. Two people cannot start the same step.</p></div>
+      <div class="card"><span class="num">06</span><h3>Situation briefings in Rovo</h3><p>Ask the T-Minus agent for the current situation or an executive update. It answers from the recorded plan state and says what is a projection.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="how">
+  <div class="wrap two">
+    <div>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Plan in Jira.</strong> One issue per step. Links of type &ldquo;Blocks&rdquo; become dependencies, the original estimate becomes the planned duration, the assignee becomes the owner.</li>
+        <li><strong>Import the project.</strong> Open T-Minus in the Jira project, set the cutover window and how long a rollback takes, and import.</li>
+        <li><strong>Run it.</strong> Start the cutover. Operators work the steps; the lead watches the projected finish, the deadlines and the rollback clock.</li>
+        <li><strong>Decide.</strong> At each checkpoint the approver records the decision. Passing the point of no return needs an explicit confirmation.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>What it will not do</h2>
+      <ul class="list">
+        <li><strong>It never starts a rollback.</strong><span>A no-go stops execution in the app. What happens in your systems stays a human action.</span></li>
+        <li><strong>It does not guess.</strong><span>The schedule is plain arithmetic on recorded times and planned durations. When a step is running late, the app says the projection is the earliest possible finish.</span></li>
+        <li><strong>It does not send your data anywhere.</strong><span>Plans and the audit trail are stored in Forge storage on your Atlassian site. There is no external server.</span></li>
+        <li><strong>It does not store names or emails.</strong><span>Only Atlassian account ids are kept. Names are read from Jira when a screen is shown.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <div class="install">
+      <h2>Install</h2>
+<!--INSTALL-->
+      <p><a class="btn btn-primary" href="https://developer.atlassian.com/console/install/6285d46c-4ef6-4efb-8d0b-6146906c6ce1?signature=AYABeDD8GxPBqZ%2BE8ZZRjmhcXtQAAAADAAdhd3Mta21zAEthcm46YXdzOmttczp1cy13ZXN0LTI6NzA5NTg3ODM1MjQzOmtleS83MDVlZDY3MC1mNTdjLTQxYjUtOWY5Yi1lM2YyZGNjMTQ2ZTcAuAECAQB4CxqLTo9l4lqXuFjNim1xJM%2Bp%2F3TVP9xHS2BrU5DRRucBxXFnmAqMkSCyl6leOTM7vgAAAH4wfAYJKoZIhvcNAQcGoG8wbQIBADBoBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDJqZCVzW%2FRJw46Tz%2FQIBEIA7KpCT9ZAQwFJsiwTrSbSKKgdRQWmd%2FjUuSXbGYWf2JKynvqBa%2F6pgANm%2BkirVwQ87I84ioBd6pe1JkcEAB2F3cy1rbXMAS2Fybjphd3M6a21zOmV1LXdlc3QtMTo3MDk1ODc4MzUyNDM6a2V5LzQ2MzBjZTZiLTAwYzMtNGRlMi04NzdiLTYyN2UyMDYwZTVjYwC4AQICAHi9bVMAkme4qVQX1fQHo6ePw3H40A7cGfz7yrmSfBWMXgHzrqE7iuvRTZcycSDL2vL%2BAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMYTwAiUE9gVwinAxTAgEQgDtCr1tNBFtw8PO6nP%2BYM4Mj2FAxgXzP2tuvr1UHfYqaQDskqtHZB8zGjxZpadCx1rcIhwf0ABZcFLYGhAAHYXdzLWttcwBLYXJuOmF3czprbXM6dXMtZWFzdC0xOjcwOTU4NzgzNTI0MzprZXkvNmMxMjBiYTAtNGNkNS00OTg1LWI4MmUtNDBhMDQ5NTJjYzU3ALgBAgIAeDYASx0XCjkny4iLV6vz%2BKtEGSGT6kdt0QRpkn6D%2FlVEAV3faaMp3F5mck34LGGuVGMAAAB%2BMHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxGhCxxWC6o0pXlPaYCARCAOy4FJhD2J%2FQANeRhmYUO4jYqEJlO75s%2FjAmcHkBWRSuvXa92N96t2FuQxly5jqyCs%2BF7NjAN8IvIR%2FhlAgAAAAAMAAAQAAAAAAAAAAAAAAAAAGfXCKv9%2FyzkeoniLimxGvP%2F%2F%2F%2F%2FAAAAAQAAAAAAAAAAAAAAAQAAADJgwtcTW9eS3sKOnSzGepvRmbzPBKUV3fMdYR%2F8WTiUmnT8Xpgmp9vPHrfVg%2FZvsGsuWAZdzt8gu5MvXt5iAN%2BP9Ck%3D&amp;product=jira" rel="noopener">Install T-Minus on Jira</a></p>
+      <p>The link opens Atlassian's install page, where you choose your site and review the permissions: read and update Jira issues, read user profiles (names are shown, not stored), and app storage.</p>
+<!--/INSTALL-->
+      <p>You need to be an admin of a Jira Cloud site. The briefing agent also needs Rovo. After installing, open any Jira project and choose T-Minus from the project tabs; &ldquo;Create demo plan&rdquo; loads a synthetic finance cutover you can run in a few minutes.</p>
+    </div>
+    <p class="note" style="margin-top:24px">T-Minus is a new, personal project. It has been tested on a demo site, not on a real cutover. Rehearse with it before you rely on it, and keep your existing runbook to hand.</p>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <span>T-Minus &middot; a personal project by Tho Nguyen</span>
+      <ul>
+        <li><a href="/privacy">Privacy policy</a></li>
+        <li><a href="/terms">Terms of use</a></li>
+        <li><a href="mailto:support@thonguyen.net">support@thonguyen.net</a></li>
+      </ul>
+    </div>
+    <p>T-Minus is an independent app built on Atlassian Forge. It is not made, endorsed or supported by Atlassian. Jira, Rovo and Forge are trademarks of Atlassian.</p>
+  </div>
+</footer>
+</body>
+</html>
