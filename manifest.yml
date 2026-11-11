@@ -1,0 +1,101 @@
+modules:
+  jira:projectPage:
+    - key: tminus-board
+      resource: main
+      resolver:
+        function: resolver
+      title: T-Minus
+      layout: blank
+  rovo:agent:
+    - key: tminus-situation-commander
+      name: T-Minus Situation Commander
+      description: Briefs cutover leads on a live go-live. Reports status, delays,
+        critical path impact, the rollback decision window and pending go/no-go
+        decisions from the T-Minus plan.
+      prompt: resource:prompts;situation-commander.md
+      conversationStarters:
+        - Are we still on schedule, and what decisions are needed right now?
+        - Give me the current go-live situation
+        - What is late or blocked, and what does it affect?
+        - How long do we have to decide on a rollback?
+        - Draft an executive update
+      actions:
+        - get-situation
+        - get-step-impact
+        - add-operational-note
+  action:
+    - key: get-situation
+      name: Get go-live situation
+      function: getSituation
+      actionVerb: GET
+      description: Returns the current state of the T-Minus cutover plan. Covers progress, delayed and blocked steps, projected finish, critical path, deadline margins, rollback decision window and pending decisions. Facts, projections and assumptions are labelled.
+      inputs:
+        planId:
+          title: Plan ID
+          type: string
+          required: false
+          description: Optional plan id. Leave empty to use the most recent plan.
+    - key: get-step-impact
+      name: Get downstream impact of a step
+      function: getStepImpact
+      actionVerb: GET
+      description: Lists every step that depends on the given step, with its projected
+        delay against baseline and whether it is on the critical path.
+      inputs:
+        stepId:
+          title: Step ID
+          type: string
+          required: true
+          description: The step id as shown on the board, for example MIG-3.
+        planId:
+          title: Plan ID
+          type: string
+          required: false
+          description: Optional plan id. Leave empty to use the most recent plan.
+    - key: add-operational-note
+      name: Record an operational note
+      function: addOperationalNote
+      actionVerb: CREATE
+      description: Records an operational note in the cutover audit trail on behalf of
+        the current user. Use only when the user explicitly asks to record a
+        note.
+      inputs:
+        text:
+          title: Note text
+          type: string
+          required: true
+          description: The exact note to record.
+        stepId:
+          title: Step ID
+          type: string
+          required: false
+          description: Optional step the note refers to, for example MIG-3.
+        planId:
+          title: Plan ID
+          type: string
+          required: false
+          description: Optional plan id. Leave empty to use the most recent plan.
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: getSituation
+      handler: index.getSituation
+    - key: getStepImpact
+      handler: index.getStepImpact
+    - key: addOperationalNote
+      handler: index.addOperationalNote
+resources:
+  - key: main
+    path: ui/dist
+  - key: prompts
+    path: prompts
+permissions:
+  scopes:
+    - storage:app
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/6285d46c-4ef6-4efb-8d0b-6146906c6ce1

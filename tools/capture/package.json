@@ -1,0 +1,9 @@
+{
+  "name": "tminus-capture",
+  "private": true,
+  "type": "module",
+  "description": "Drives a real Chrome window against the installed Forge app to take screenshots and record demo footage.",
+  "dependencies": {
+    "playwright-core": "^1.65.0"
+  }
+}

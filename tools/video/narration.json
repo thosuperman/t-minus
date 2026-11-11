@@ -1,0 +1,154 @@
+{
+  "voice": "Samantha",
+  "rate": 70,
+  "gapSeconds": 0.45,
+  "scenes": [
+    {
+      "id": "s1_problem",
+      "lines": [
+        {
+          "text": "A finance system go-live is a long night of tightly ordered steps."
+        },
+        {
+          "text": "Data is migrated and reconciled, a bank payment file has a hard cutoff, and at some point there is no way back."
+        },
+        {
+          "text": "Most teams run it from a spreadsheet and a conference call."
+        }
+      ]
+    },
+    {
+      "id": "s2_intro",
+      "lines": [
+        {
+          "text": "This is T-Minus, a Forge app that runs inside Jira.",
+          "tts": "This is T minus, a Forge app that runs inside Jeera."
+        },
+        {
+          "text": "It is not another planning tool. It is mission control for executing the go-live."
+        },
+        {
+          "text": "Each step of the runbook is a Jira issue, with an owner, dependencies, and a planned duration.",
+          "tts": "Each step of the runbook is a Jeera issue, with an owner, dependencies, and a planned duration."
+        }
+      ]
+    },
+    {
+      "id": "s3_execute",
+      "lines": [
+        {
+          "text": "The lead starts the cutover, and operators start and complete their steps from the board."
+        },
+        {
+          "text": "Every action is checked on the server, time-stamped, and written to an audit trail."
+        },
+        {
+          "text": "The linked Jira issue moves with it.",
+          "tts": "The linked Jeera issue moves with it."
+        }
+      ]
+    },
+    {
+      "id": "s3b_fastforward",
+      "lines": [
+        {
+          "text": "For this demo, a clearly labelled simulated clock fast-forwards the first two hours."
+        }
+      ]
+    },
+    {
+      "id": "s4_delay",
+      "lines": [
+        {
+          "text": "Now the data migration runs long. It is about forty-five minutes over plan."
+        },
+        {
+          "text": "T-Minus recalculates the schedule after every change, and lists every step that is pushed back.",
+          "tts": "T minus recalculates the schedule after every change, and lists every step that is pushed back."
+        },
+        {
+          "text": "Thirty minutes later, the bank payment file cutoff is projected to be missed."
+        },
+        {
+          "text": "This is plain arithmetic on recorded times and planned durations. The app labels it as the earliest possible finish, not a forecast."
+        }
+      ]
+    },
+    {
+      "id": "s5_rollback",
+      "lines": [
+        {
+          "text": "The rollback decision window shows how long the team still has to decide to go back."
+        },
+        {
+          "text": "It is limited by the point of no return, and by the time a rollback needs before business opens."
+        },
+        {
+          "text": "T-Minus supports that decision. It never starts a rollback.",
+          "tts": "T minus supports that decision. It never starts a rollback."
+        },
+        {
+          "text": "In a second browser session, an operator reports a blocker. This board picks it up within seconds."
+        }
+      ]
+    },
+    {
+      "id": "s6_rovo",
+      "lines": [
+        {
+          "text": "The Situation Commander is a Rovo agent.",
+          "tts": "The Situation Commander is a Roe-voe agent."
+        },
+        {
+          "text": "We ask: are we still on schedule, and what decisions are needed right now?"
+        },
+        {
+          "text": "It answers from the recorded plan state: what is late, what is blocked, and how long the rollback window is."
+        },
+        {
+          "text": "Here it reports ninety-four minutes of slip, the blocked migration with its reason, and twenty-six minutes left to decide on a rollback."
+        },
+        {
+          "text": "These are the same numbers the board shows."
+        }
+      ]
+    },
+    {
+      "id": "s7_gonogo",
+      "lines": [
+        {
+          "text": "When reconciliation is complete, the go or no-go checkpoint opens."
+        },
+        {
+          "text": "An authorized approver records the decision, with the evidence."
+        },
+        {
+          "text": "It is written to the audit trail, and to the Jira issue.",
+          "tts": "It is written to the audit trail, and to the Jeera issue."
+        }
+      ]
+    },
+    {
+      "id": "s7b_jira",
+      "lines": [
+        {
+          "text": "The Jira issue carries the same decision.",
+          "tts": "The Jeera issue carries the same decision."
+        }
+      ]
+    },
+    {
+      "id": "s8_close",
+      "lines": [
+        {
+          "text": "From scattered tasks and uncertain timelines, to coordinated, evidence-based go-live execution."
+        },
+        {
+          "text": "T-Minus. Built on Atlassian Forge, for Jira and Rovo.",
+          "tts": "T minus. Built on Atlassian Forge, for Jeera and Roe-voe."
+        }
+      ]
+    }
+  ],
+  "tempo": 0.82
+}

@@ -1,0 +1,135 @@
+1
+00:00:00,350 --> 00:00:06,240
+A finance system go-live is a long night of tightly ordered steps.
+
+2
+00:00:06,440 --> 00:00:13,405
+Data is migrated and reconciled, a bank payment file has a hard cutoff,
+
+3
+00:00:13,155 --> 00:00:17,093
+and at some point there is no way back.
+
+4
+00:00:17,293 --> 00:00:22,221
+Most teams run it from a spreadsheet and a conference call.
+
+5
+00:00:22,917 --> 00:00:28,235
+This is T-Minus, a Forge app that runs inside Jira.
+
+6
+00:00:28,435 --> 00:00:35,378
+It is not another planning tool. It is mission control for executing the go-live.
+
+7
+00:00:35,578 --> 00:00:44,552
+Each step of the runbook is a Jira issue, with an owner, dependencies, and a planned duration.
+
+8
+00:00:45,417 --> 00:00:52,808
+The lead starts the cutover, and operators start and complete their steps from the board.
+
+9
+00:00:53,008 --> 00:01:00,448
+Every action is checked on the server, time-stamped, and written to an audit trail.
+
+10
+00:01:00,648 --> 00:01:03,539
+The linked Jira issue moves with it.
+
+11
+00:01:04,250 --> 00:01:12,143
+For this demo, a clearly labelled simulated clock fast-forwards the first two hours.
+
+12
+00:01:12,850 --> 00:01:20,136
+Now the data migration runs long. It is about forty-five minutes over plan.
+
+13
+00:01:20,336 --> 00:01:29,273
+T-Minus recalculates the schedule after every change, and lists every step that is pushed back.
+
+14
+00:01:29,473 --> 00:01:36,445
+Thirty minutes later, the bank payment file cutoff is projected to be missed.
+
+15
+00:01:36,645 --> 00:01:42,860
+This is plain arithmetic on recorded times and planned durations.
+
+16
+00:01:42,610 --> 00:01:48,916
+The app labels it as the earliest possible finish, not a forecast.
+
+17
+00:01:49,650 --> 00:01:56,957
+The rollback decision window shows how long the team still has to decide to go back.
+
+18
+00:01:57,157 --> 00:02:05,713
+It is limited by the point of no return, and by the time a rollback needs before business opens.
+
+19
+00:02:05,913 --> 00:02:11,799
+T-Minus supports that decision. It never starts a rollback.
+
+20
+00:02:11,999 --> 00:02:17,826
+In a second browser session, an operator reports a blocker.
+
+21
+00:02:17,576 --> 00:02:21,418
+This board picks it up within seconds.
+
+22
+00:02:22,150 --> 00:02:26,143
+The Situation Commander is a Rovo agent.
+
+23
+00:02:26,343 --> 00:02:33,411
+We ask: are we still on schedule, and what decisions are needed right now?
+
+24
+00:02:33,611 --> 00:02:38,701
+It answers from the recorded plan state: what is late,
+
+25
+00:02:38,451 --> 00:02:43,450
+what is blocked, and how long the rollback window is.
+
+26
+00:02:43,650 --> 00:02:51,049
+Here it reports ninety-four minutes of slip, the blocked migration with its reason,
+
+27
+00:02:50,799 --> 00:02:55,528
+and twenty-six minutes left to decide on a rollback.
+
+28
+00:02:55,728 --> 00:02:59,226
+These are the same numbers the board shows.
+
+29
+00:03:04,983 --> 00:03:11,753
+When reconciliation is complete, the go or no-go checkpoint opens.
+
+30
+00:03:11,953 --> 00:03:17,706
+An authorized approver records the decision, with the evidence.
+
+31
+00:03:17,906 --> 00:03:22,774
+It is written to the audit trail, and to the Jira issue.
+
+32
+00:03:26,483 --> 00:03:30,113
+The Jira issue carries the same decision.
+
+33
+00:03:34,483 --> 00:03:44,217
+From scattered tasks and uncertain timelines, to coordinated, evidence-based go-live execution.
+
+34
+00:03:44,417 --> 00:03:50,939
+T-Minus. Built on Atlassian Forge, for Jira and Rovo.
