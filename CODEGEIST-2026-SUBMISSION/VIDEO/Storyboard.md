@@ -31,3 +31,7 @@ Final video: **3:57**, 1920 x 1080, 30 fps. Every scene is footage of the produc
 
 `tools/capture/login.mjs` (sign in once), then `tools/capture/capture.mjs` (resets the demo and records every scene), then `python3 tools/video/build.py`.
 
+
+## Redaction
+
+In the first scene Jira shows a profile card with the account's email address. The address is blurred in the recorded frames by `tools/video/redact.py` before the video is built. Nothing else in the footage is altered.
