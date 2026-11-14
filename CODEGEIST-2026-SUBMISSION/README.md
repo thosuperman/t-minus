@@ -11,9 +11,9 @@ T-Minus is go-live mission control for Jira: it runs an ERP, HR or finance cutov
 
 | Folder | What it is |
 |---|---|
-| `DEVPOST/` | Text for the submission form: title and tagline, description, technologies, field-by-field guide, installation instructions |
+| `DEVPOST/` | Text for the submission form: title and tagline, description, technologies, field-by-field guide, installation instructions. Start with `SUBMISSION_SHEET.md`: every field ready to paste, in form order |
 | `VIDEO/` | The demo video (3:57, 1080p), narration script, subtitles, storyboard |
-| `SCREENSHOTS/` | Seven 3200 x 1800 screenshots of the app in Jira, with captions |
+| `SCREENSHOTS/` | The thumbnail (`00_Thumbnail.png`) and seven 3200 x 1800 screenshots of the app in Jira, with captions |
 | `REVIEW/` | Rules checklist, feature verification, test results, deployment, security and privacy, remaining risks |
 
 `VIDEO/Final_Demo_1080p.mp4` is kept out of Git because of its size (33 MB). It is rebuilt by `tools/video/build.py` from footage recorded with `tools/capture/capture.mjs`.
@@ -22,7 +22,7 @@ T-Minus is go-live mission control for Jira: it runs an ERP, HR or finance cutov
 
 1. Listen to the video once. The narration is a synthetic voice that I could measure but not hear.
 2. Upload the video to YouTube as public and copy the URL.
-3. Open the Devpost form and fill it from `DEVPOST/Submission_Fields.md`.
+3. Open the Devpost form and fill it from `DEVPOST/SUBMISSION_SHEET.md`.
 4. Submit before 22 December 2026, 12:00 pm Pacific Time.
 
 Nothing has been submitted to Devpost.
