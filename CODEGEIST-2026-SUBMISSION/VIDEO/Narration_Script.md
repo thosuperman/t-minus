@@ -1,8 +1,8 @@
 # Narration script
 
-English, 388 words. Spoken at 116 words per minute; 98 words per minute across the whole video including pauses.
+English, 388 words. Spoken at 109 words per minute; 98 words per minute across the whole video including pauses.
 
-Voice: the macOS system voice "Samantha", slowed to 82% with pitch preserved. This is a synthetic voice, and the end card says so. To replace it with your own recording, record each line below as a separate file and see `tools/video/build.py`.
+Voice: the macOS system voice "Daniel" (male, British English), slowed to 87% with pitch preserved. This is a synthetic voice, and the end card says so. To replace it with your own recording, record each line below as a separate file and see `tools/video/build.py`.
 
 
 ## 0:00 – The problem

@@ -32,10 +32,10 @@ What the 53 tests cover:
 
 | Check | Result |
 |---|---|
-| Video duration | 3:56 (limit: under 5 minutes) |
+| Video duration | 3:57 (limit: under 5 minutes) |
 | Video format | 1920 x 1080, 30 fps, H.264, AAC stereo 48 kHz |
-| Narration pace | 116 words per minute while speaking (target 105 to 120) |
-| Loudness | -16 LUFS integrated, true peak below -3 dBFS, no clipping |
+| Narration pace | 109 words per minute while speaking (target 105 to 120) |
+| Loudness | -16 LUFS integrated, true peak -1.5 dBFS, no clipping |
 | Subtitles | 34 cues; timings generated from the same per-line audio as the narration, so they cannot drift |
 | Frames reviewed | 12 frames across all scenes: correct scene order, captions readable, end card present |
 | Screenshots | 7 files, 3200 x 1800, each inspected |
