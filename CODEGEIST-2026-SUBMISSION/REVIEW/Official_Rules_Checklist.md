@@ -11,7 +11,7 @@ Checked against https://codegeist2026.devpost.com/rules, read in full on 10 Nove
 | New project | Created during the submission period | Met | First commit and first deploy in November 2026 |
 | Ownership | Original work, solely owned; open source used under licence | Met | Own code; npm dependencies only |
 | Functionality | Installs in a judge's environment from an installation link and works as shown | Met with a caveat | Installed from the public link on a demo site and exercised end to end. Not tested on a second, never-used site |
-| Video | Under five minutes | Met | 3:56 |
+| Video | Under five minutes | Met | 3:57 |
 | Video | Shows the project functioning | Met | Recorded from the app inside Jira |
 | Video | Public on YouTube, link on the form | **You do this** | File ready: `VIDEO/Final_Demo_1080p.mp4` |
 | Video | No third-party trademarks or copyrighted music | Met | No music. Shows Jira and Rovo (the sponsor's products) and the app only. Demo data uses invented names |

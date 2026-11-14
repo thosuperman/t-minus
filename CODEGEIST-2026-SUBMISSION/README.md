@@ -12,7 +12,7 @@ T-Minus is go-live mission control for Jira: it runs an ERP, HR or finance cutov
 | Folder | What it is |
 |---|---|
 | `DEVPOST/` | Text for the submission form: title and tagline, description, technologies, field-by-field guide, installation instructions |
-| `VIDEO/` | The demo video (3:56, 1080p), narration script, subtitles, storyboard |
+| `VIDEO/` | The demo video (3:57, 1080p), narration script, subtitles, storyboard |
 | `SCREENSHOTS/` | Seven 3200 x 1800 screenshots of the app in Jira, with captions |
 | `REVIEW/` | Rules checklist, feature verification, test results, deployment, security and privacy, remaining risks |
 

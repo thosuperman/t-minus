@@ -1,5 +1,5 @@
 {
-  "voice": "Samantha",
+  "voice": "Daniel",
   "rate": 70,
   "gapSeconds": 0.45,
   "scenes": [
@@ -150,5 +150,5 @@
       ]
     }
   ],
-  "tempo": 0.82
+  "tempo": 0.87
 }
