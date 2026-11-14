@@ -1,9 +1,10 @@
 # Screenshots
 
-Seven screenshots of T-Minus running inside Jira on a demo site (production build, installed from the public link). Each is 3200 x 1800 pixels (PNG), captured by a browser driven with real clicks. Nothing is composited or edited. All data is synthetic; the plan clock is simulated and labelled in the app.
+Seven screenshots of T-Minus running inside Jira on a demo site (production build, installed from the public link). Each is 3200 x 1800 pixels (PNG), captured by a browser driven with real clicks. Nothing is composited or edited, except `00_Thumbnail.png`, which is a title card built from screenshot 01. All data is synthetic; the plan clock is simulated and labelled in the app.
 
 | File | Shows | Suggested caption |
 |---|---|---|
+| `00_Thumbnail.png` | Title card over the Mission Control screenshot, 1500 x 1000 (3:2). Built by `tools/thumbnail/make.py` | Devpost thumbnail; not for the gallery |
 | `01_Mission_Control.png` | Board header, the four situation tiles, timeline with critical path, step panel | Mission control: projected finish, deadline margins and the rollback decision window, recalculated after every change |
 | `02_Live_Runbook.png` | Runbook rows by workstream with states, owners and times | The live runbook: each step is a Jira issue with an owner, dependencies and recorded or projected times |
 | `03_Critical_Delay.png` | Data migration running 45 minutes over plan, with its downstream impact | A critical delay: the data migration overruns and every dependent step shows its projected slip |
