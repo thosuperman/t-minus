@@ -48,20 +48,31 @@ describe('KvsStore', () => {
 
 describe('Rovo actions', () => {
   it('get-situation says so when no plan exists', async () => {
-    expect(await getSituation({})).toMatchObject({ found: false });
+    expect(await getSituation({}, { accountId: 'lead' })).toMatchObject({ found: false });
+    expect(await getSituation({}, {})).toMatchObject({ error: 'FORBIDDEN' });
   });
   it('get-situation returns live state from storage; get-step-impact tolerates lower-case ids and rejects unknown ones', async () => {
     const svc = createService(new KvsStore());
     const v = await svc.createDemoPlan(lead);
     await svc.runDemoScript(lead, v.plan.id);
-    const sit = (await getSituation({ planId: '  ' })) as any;
+    const sit = (await getSituation({ planId: '  ' }, { accountId: 'lead' })) as any;
     expect(sit.found).toBe(true);
     expect(sit.inProgress[0]).toMatchObject({ id: 'MIG-3', overrunMin: 45, endIsRecordedFact: false, projectionBasis: 'overrun-floor' });
     expect(sit.rollback.note).toMatch(/never starts a rollback/);
-    const impact = (await getStepImpact({ stepId: 'mig-3' })) as any;
+    const impact = (await getStepImpact({ stepId: 'mig-3' }, { accountId: 'lead' })) as any;
     expect(impact.downstream).toHaveLength(9);
-    expect(await getStepImpact({ stepId: 'NOPE' })).toMatchObject({ error: 'NOT_FOUND' });
-    expect(await getStepImpact({})).toMatchObject({ error: 'INVALID_INPUT' });
+    expect(await getStepImpact({ stepId: 'NOPE' }, { accountId: 'lead' })).toMatchObject({ error: 'NOT_FOUND' });
+    expect(await getStepImpact({}, { accountId: 'lead' })).toMatchObject({ error: 'INVALID_INPUT' });
+  });
+  it('the agent hides a plan from a user who cannot browse its Jira project', async () => {
+    const svc = createService(new KvsStore());
+    const v = await svc.createDemoPlan(lead, { projectKey: 'SECRET' });
+    // The mocked Jira answers every permission check with an error, which counts as "no access".
+    const sit = (await getSituation({}, { accountId: 'lead' })) as any;
+    expect(sit.found === false || sit.plan?.id !== v.plan.id).toBe(true);
+    expect(await getSituation({ planId: v.plan.id }, { accountId: 'lead' })).toMatchObject({ error: 'FORBIDDEN' });
+    expect(await getStepImpact({ stepId: 'MIG-3', planId: v.plan.id }, { accountId: 'lead' })).toMatchObject({ error: 'FORBIDDEN' });
+    expect(await addOperationalNote({ text: 'x', planId: v.plan.id }, { accountId: 'lead' })).toMatchObject({ error: 'FORBIDDEN' });
   });
   it('add-operational-note takes identity from context, never from inputs, and refuses unknown users', async () => {
     const svc = createService(new KvsStore());

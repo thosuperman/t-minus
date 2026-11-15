@@ -29,8 +29,17 @@ export async function lookupNames(accountIds: string[], as: 'user' | 'app' = 'us
   return out;
 }
 
+/** Can the acting user browse the project? Used to keep plans of a project away from people who cannot see it. */
+export async function canBrowse(projectKey: string): Promise<boolean> {
+  const res = await api.asUser().requestJira(route`/rest/api/3/mypermissions?projectKey=${projectKey}&permissions=BROWSE_PROJECTS`, { headers: json });
+  if (!res.ok) return false;
+  const data = await res.json();
+  return !!data?.permissions?.BROWSE_PROJECTS?.havePermission;
+}
+
 export const jiraPort: JiraPort = {
   userNames: (ids) => lookupNames(ids, 'user'),
+  canBrowse,
 
   async canEdit(projectKey) {
     const res = await api.asUser().requestJira(route`/rest/api/3/mypermissions?projectKey=${projectKey}&permissions=EDIT_ISSUES`, { headers: json });

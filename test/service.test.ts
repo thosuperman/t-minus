@@ -248,6 +248,30 @@ describe('Jira side effects and permissions', () => {
     expect(await code(() => s.svc.execute({ ...viewer, jira: mk(false) }, v0.plan.id, { type: 'startStep', stepId: 'FRZ-1' }))).toBe('FORBIDDEN');
     expect(await code(() => s.svc.execute({ ...viewer, jira: mk(true) }, v0.plan.id, { type: 'startStep', stepId: 'FRZ-1' }))).toBe('OK');
   });
+  it('a plan of a Jira project is hidden from people who cannot browse that project', async () => {
+    const mk = (browse: boolean): JiraPort => ({ canBrowse: async () => browse, canEdit: async () => browse, transition: async () => ({ ok: true }), comment: async () => ({ ok: true }), importSteps: async () => [], createIssues: async () => ({}), userNames: async () => ({}) });
+    const s = setup();
+    const v0 = await s.svc.createDemoPlan({ ...lead, jira: mk(true) }, { projectKey: 'CUT' });
+    const outsider = { ...viewer, jira: mk(false) };
+    expect(await s.svc.listPlans(outsider)).toEqual([]);
+    expect((await s.svc.listPlans({ ...viewer, jira: mk(true) })).map((x) => x.id)).toEqual([v0.plan.id]);
+    expect(await code(() => s.svc.getView(outsider, v0.plan.id))).toBe('FORBIDDEN');
+    expect(await code(() => s.svc.audit(v0.plan.id, outsider))).toBe('FORBIDDEN');
+    expect(await code(() => s.svc.stepImpact(v0.plan.id, 'MIG-3', outsider))).toBe('FORBIDDEN');
+    expect(await code(() => s.svc.execute(outsider, v0.plan.id, { type: 'addNote', text: 'x' }))).toBe('FORBIDDEN');
+    expect((await s.svc.situation(undefined, undefined, outsider)).found).toBe(false);
+  });
+  it('unblocking a started step carries the blocked time into its planned end', async () => {
+    const s = setup(); const id = await demo(s);
+    await s.svc.execute(lead, id, { type: 'startPlan' });
+    await s.svc.execute(op, id, { type: 'startStep', stepId: 'FRZ-1' });
+    await s.svc.execute(op, id, { type: 'blockStep', stepId: 'FRZ-1', reason: 'waiting for DBA' });
+    await s.svc.execute(lead, id, { type: 'advanceClock', minutes: 20 });
+    const before = (await s.svc.getView(lead, id)).projection.projectedFinish;
+    const v = await s.svc.execute(op, id, { type: 'unblockStep', stepId: 'FRZ-1' });
+    expect(v.state.steps['FRZ-1'].pausedMs).toBe(20 * 60_000);
+    expect(v.projection.projectedFinish).toBe(before);
+  });
 });
 
 describe('situation report for the agent', () => {
@@ -272,7 +296,11 @@ describe('situation report for the agent', () => {
     expect(sit.rollback.limitedBy).toMatch(/90 minutes a rollback needs|point of no return/);
     const impact = await s.svc.stepImpact(id, 'MIG-3');
     expect(impact.map((i) => i.id)).toEqual(['REC-1', 'REC-2', 'GATE-1', 'PNR-1', 'PAY-1', 'VAL-1', 'PAY-2', 'GATE-2', 'COM-1']);
-    expect(impact.every((i) => i.slipMin === 65)).toBe(true);
+    expect(impact.every((i) => i.slipVsBaselineMin === 65)).toBe(true);
+    expect(sit.upcomingDecisions.map((d) => d.id)).toEqual(['GATE-1', 'PNR-1', 'GATE-2']);
+    expect(sit.upcomingDecisions[0].projectedAt).toMatch(/^T\+/);
+    expect(sit.upcomingDecisions[0].waitingFor).toEqual(['REC-1', 'REC-2']);
+    expect(impact[0].projectedStart).toMatch(/^T\+\d+:\d{2} \(\d{2}:\d{2} UTC\)$/);
   });
 });
 
