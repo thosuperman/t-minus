@@ -191,7 +191,8 @@ export function computeProjection(plan: PlanDef, exec: ExecState, now: number): 
     }
     if ((x.status === 'running' || x.status === 'blocked') && x.actualStart !== undefined) {
       start[id] = x.actualStart;
-      const plannedEnd = x.actualStart + dur;
+      const paused = x.pausedMs ?? 0;
+      const plannedEnd = x.actualStart + dur + paused;
       overrun[id] = Math.max(0, Math.round((now - plannedEnd) / MIN));
       if (x.assumedRemainingMin !== undefined && x.assumptionAt !== undefined) {
         // The assumption was made at assumptionAt; it cannot place the end in the past.
@@ -201,7 +202,7 @@ export function computeProjection(plan: PlanDef, exec: ExecState, now: number): 
           `${id}: ${x.assumedRemainingMin} min remaining, as entered by an operator. This is an assumption, not a measurement.`,
         );
       } else if (x.status === 'blocked') {
-        const worked = Math.max(0, (x.blockedAt ?? now) - x.actualStart);
+        const worked = Math.max(0, (x.blockedAt ?? now) - x.actualStart - paused);
         end[id] = now + Math.max(0, dur - worked);
         basis[id] = 'blocked-floor';
         assumptions.push(`${id}: blocked. The projection assumes it is unblocked now; every further minute blocked adds a minute.`);

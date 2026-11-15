@@ -172,7 +172,14 @@ export function apply(plan: PlanDef, state: ExecState, e: ExecEvent): ExecState 
       break;
     case 'STEP_UNBLOCKED': {
       const x = next.steps[e.stepId!];
-      upd(e.stepId!, { status: x.actualStart !== undefined ? 'running' : 'pending', blockedReason: undefined, blockedAt: undefined });
+      // Time lost while blocked after the step started still has to be worked, so it is carried as a pause.
+      const paused = x.actualStart !== undefined && x.blockedAt !== undefined ? Math.max(0, e.planTime - x.blockedAt) : 0;
+      upd(e.stepId!, {
+        status: x.actualStart !== undefined ? 'running' : 'pending',
+        blockedReason: undefined,
+        blockedAt: undefined,
+        pausedMs: (x.pausedMs ?? 0) + paused,
+      });
       break;
     }
     case 'ESCALATED':
@@ -185,7 +192,7 @@ export function apply(plan: PlanDef, state: ExecState, e: ExecEvent): ExecState 
       if (e.decision === 'NO_GO') {
         upd(e.stepId!, { decision: e.decision, decisionNote: e.text, decisionBy: who, decisionAt: e.planTime });
         next.phase = 'halted';
-        next.haltedReason = `No-go recorded at ${e.stepId} by ${who}.`;
+        next.haltedReason = `No-go recorded at ${e.stepId}.`;
       } else {
         // A gate is instantaneous: the decision is both its start and its end.
         upd(e.stepId!, { status: 'done', actualStart: e.planTime, actualEnd: e.planTime, decision: e.decision, decisionNote: e.text, decisionBy: who, decisionAt: e.planTime, completedBy: who });

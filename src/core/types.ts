@@ -49,6 +49,8 @@ export interface StepState {
   completedBy?: string;
   blockedReason?: string;
   blockedAt?: number;
+  /** Plan time spent blocked after the step started, in ms. Pushes its planned end out by the same amount. */
+  pausedMs?: number;
   /** User-entered assumption: minutes still needed, as stated at assumptionAt. */
   assumedRemainingMin?: number;
   assumptionAt?: number;

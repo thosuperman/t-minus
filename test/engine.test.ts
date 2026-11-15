@@ -151,6 +151,17 @@ describe('slip propagation', () => {
     expect(computeProjection(p, st, T0 + 30 * MIN).steps.B.end).toBe(T0 + 70 * MIN);
     expect(computeProjection(p, st, T0 + 50 * MIN).steps.B.end).toBe(T0 + 90 * MIN);
   });
+  it('clearing a blocker keeps the time lost while blocked', () => {
+    const p = diamond();
+    // B started at T+10, was blocked from T+30 to T+50: 20 minutes paused, so its planned end moves from T+70 to T+90.
+    const st = live(p, {
+      A: { status: 'done', actualStart: T0, actualEnd: T0 + 10 * MIN },
+      B: { status: 'running', actualStart: T0 + 10 * MIN, pausedMs: 20 * MIN },
+    });
+    const proj = computeProjection(p, st, T0 + 50 * MIN);
+    expect(proj.steps.B.end).toBe(T0 + 90 * MIN);
+    expect(proj.steps.B.overrunMin).toBe(0);
+  });
   it('recorded facts are never altered by the projection', () => {
     const p = diamond();
     const st = live(p, { A: { status: 'done', actualStart: T0 + 3 * MIN, actualEnd: T0 + 9 * MIN } });
