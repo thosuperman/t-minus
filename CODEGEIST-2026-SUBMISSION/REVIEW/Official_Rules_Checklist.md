@@ -15,7 +15,7 @@ The submission form itself could not be opened: the Devpost account in the brows
 | Functionality | Installs in a judge's environment from an installation link and works as shown | Met with a caveat | Installed from the public link on a demo site and exercised end to end. Not tested on a second, never-used site |
 | Video | Under five minutes | Met | 3:57 |
 | Video | Shows the project functioning | Met | Recorded from the app inside Jira |
-| Video | Public on YouTube, link on the form | **You do this** | File ready: `VIDEO/Final_Demo_1080p.mp4` |
+| Video | Public on YouTube, link on the form | Met (link to paste) | https://youtu.be/Nxrbcvqr1PQ, public, 3:57 |
 | Video | No third-party trademarks or copyrighted music | Met | No music. Shows Jira and Rovo (the sponsor's products) and the app only. Demo data uses invented names |
 | Access | Installation link and all setup instructions | Met | `INSTALL_LINK.txt`, `DEVPOST/Installation_Instructions.md` |
 | Text description | Features and functionality | Met | `DEVPOST/Project_Overview.md` |

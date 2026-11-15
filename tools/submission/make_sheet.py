@@ -65,10 +65,10 @@ Upload in this order and paste each caption. All are real captures of the instal
 ## 5. Video demo link
 
 ```
-PASTE THE YOUTUBE URL HERE
+https://youtu.be/Nxrbcvqr1PQ
 ```
 
-Upload `VIDEO/Final_Demo_1080p.mp4` to YouTube as **Public** first, with captions from `VIDEO/Subtitles.srt`.
+Public on YouTube since 16 November 2026 (3:57). The source file is `VIDEO/Final_Demo_1080p.mp4`.
 
 {demote(section(video, '# Video description'), 2)}
 

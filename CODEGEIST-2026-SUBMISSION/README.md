@@ -21,7 +21,7 @@ T-Minus is go-live mission control for Jira: it runs an ERP, HR or finance cutov
 ## Before submitting
 
 1. Listen to the video once. The narration is a synthetic voice that was measured but not heard.
-2. Upload the video to YouTube as public (details in `DEVPOST/Video_Description.md`) and copy the URL.
+2. Video is public on YouTube: https://youtu.be/Nxrbcvqr1PQ
 3. Sign in to Devpost and join the hackathon at https://codegeist2026.devpost.com.
 4. Open the submission form and fill it from `DEVPOST/SUBMISSION_SHEET.md`.
 5. Submit before 22 December 2026, 12:00 pm Pacific Time (23 December, 5:00 am Japan time).

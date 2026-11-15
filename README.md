@@ -2,6 +2,8 @@
 
 T-Minus runs an ERP, HR or finance cutover minute by minute inside Jira. Each runbook step is a Jira issue. Operators start and complete steps, the app recalculates the schedule after every change, and the board shows what is late, what that delays downstream, and how long the team still has to decide on a rollback.
 
+Demo video (3:57): https://youtu.be/Nxrbcvqr1PQ
+
 The name has been checked with one Marketplace search and one web search, not a trademark search.
 
 ## Status
