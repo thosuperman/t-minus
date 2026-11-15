@@ -11,9 +11,9 @@ What to enter on the Devpost submission form. The standard Devpost fields are li
 | About the project | `Project_Overview.md`, from "Inspiration" to "What's next" |
 | Built with | atlassian-forge, jira, rovo, typescript, react, node.js, vite, vitest |
 | Try it out links | https://tminus.hayaix.tech and https://github.com/thosuperman/t-minus |
-| Video demo link | **To add:** the YouTube URL after you upload `VIDEO/Final_Demo_1080p.mp4` as a public video |
+| Video demo link | https://youtu.be/Nxrbcvqr1PQ |
 | Image gallery | The seven files in `SCREENSHOTS/`, in order. Captions are in `SCREENSHOTS/README.md` |
-| Thumbnail | `SCREENSHOTS/01_Mission_Control.png` |
+| Thumbnail | `SCREENSHOTS/00_Thumbnail.png` |
 
 ## Required by the official rules
 
@@ -57,7 +57,7 @@ These come from the official rules; the form may ask you to confirm them.
 
 ## Things only you can do
 
-1. Upload the video to YouTube as **public** and paste the URL into the form.
+1. Paste the video link (https://youtu.be/Nxrbcvqr1PQ) into the form.
 2. Open the Devpost form and match the fields above to its labels.
 3. Decide whether to mention AI coding assistance in the description. The rules do not ask for it.
 4. Submit before **22 December 2026, 12:00 pm Pacific Time**.

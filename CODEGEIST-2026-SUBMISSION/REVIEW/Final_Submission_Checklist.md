@@ -11,7 +11,7 @@
 | 7 | Category and bonus prize, with the bonus write-up | Done | `DEVPOST/Submission_Fields.md` |
 | 8 | Demo video under 5 minutes | Done (3:57, 1080p) | `VIDEO/Final_Demo_1080p.mp4` |
 | 9 | Video listened to once | **You** | |
-| 10 | Video uploaded to YouTube as **public** | **You** | Title and description in `DEVPOST/Video_Description.md` |
+| 10 | Video uploaded to YouTube as **public** | Done (16 November 2026) | https://youtu.be/Nxrbcvqr1PQ |
 | 11 | Screenshots and thumbnail | Done | `SCREENSHOTS/` |
 | 12 | Public source repository | Done | https://github.com/thosuperman/t-minus |
 | 13 | Everything in English | Done | |
