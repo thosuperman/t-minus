@@ -1,8 +1,10 @@
-# Project description
+# Project overview
 
 Paste into Devpost's "About the project" field (Markdown). Every claim below was checked against the deployed app; see `REVIEW/Feature_Verification.md`.
 
 ---
+
+**T-Minus is mission control for the night a finance or ERP system goes live.** It runs the cutover runbook minute by minute inside Jira and, after every action, answers the two questions that decide the night: how late are we, and how long do we still have to decide on a rollback? A Rovo agent briefs leads and executives from the same recorded data.
 
 ## Inspiration
 
@@ -23,6 +25,10 @@ T-Minus turns the Jira issues of a cutover project into a live runbook.
 
 T-Minus never starts a rollback or touches the systems being cut over. It coordinates people and decisions.
 
+**Who it is for.** Cutover leads, finance and ERP project teams, and the controllers and executives who must sign off a go-live: anyone who runs a timed, one-way change with a business deadline behind it.
+
+**How it differs from planning tools.** Gantt charts and release checklists describe the plan before the night. T-Minus works during it: it records what actually happened, recalculates from real start and end times, and tracks the moment after which rolling back is no longer possible. Planning stays in Jira; execution and decisions happen in T-Minus.
+
 ## How I built it
 
 T-Minus is a Forge app with no external services.
@@ -33,6 +39,7 @@ T-Minus is a Forge app with no external services.
 - **A deterministic engine** in plain TypeScript: dependency validation and cycle detection, forward and backward pass for the critical path, slip propagation, deadline margins, and the rollback window. The same code runs on the server and in the browser.
 - **Rovo agent** (`rovo:agent`) with three actions: two read actions that return the engine's output with facts, projections and operator estimates labelled separately, and one write action (record a note) that Rovo confirms with the user first.
 - **Jira REST** for issues, "Blocks" links, transitions and comments.
+- **Jira permissions apply.** Plans of a project are shown only to people who can browse that project, in the board and through the agent; changes need edit permission, a step assignment or a named role.
 
 The demo scenario is a synthetic finance ERP cutover of 17 linked steps with a bank payment file cutoff, two go/no-go checkpoints and a point of no return. A clearly labelled simulated clock lets a reviewer run it in minutes; audit entries always keep the real server time.
 
@@ -47,7 +54,8 @@ The demo scenario is a synthetic finance ERP cutover of 17 linked steps with a b
 ## Accomplishments that I'm proud of
 
 - The whole scenario runs on a real Jira site: linked issues created, steps executed, a delay propagating through the schedule, a blocker reported from a second session, a go/no-go decision recorded, and the Rovo agent answering from live state.
-- 53 automated tests cover the engine, permissions, concurrency, the audit trail and the agent's actions.
+- 57 automated tests cover the engine, permissions, concurrency, the audit trail and the agent's actions, plus end-to-end checks that drive the deployed app and ask the agent real questions.
+- The agent's answers match the board: on the demo site it reported the same slip, deadline misses and rollback window as the app, and pointed out that the next go/no-go checkpoint is projected after the rollback decision deadline.
 - The app uses only generally available Forge modules, has no egress, and stores no names or email addresses.
 
 ## What I learned
@@ -68,7 +76,7 @@ The demo scenario is a synthetic finance ERP cutover of 17 linked steps with a b
 **Built with** (Devpost tags)
 
 ```
-atlassian-forge, jira, rovo, typescript, react, node.js
+atlassian-forge, jira, rovo, typescript, react, node.js, vite, vitest
 ```
 
 **Try it out** (links)

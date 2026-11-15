@@ -15,6 +15,7 @@
 
 - The acting user always comes from the Forge context, never from request payloads or model inputs.
 - Jira calls from the UI run as the acting user, so Jira permissions apply.
+- A plan linked to a Jira project is visible only to people who can browse that project (`BROWSE_PROJECTS`, checked as the acting user on every read: plan list, board, audit trail and the agent's actions). Added on 15 November 2026 after an internal audit found reads were not checked.
 - Roles: commander (creates the plan; starts it, passes the point of no return, resets a demo), approver (records go/no-go), operator (edit permission on the project, or step owner), viewer.
 - Every command is validated on the server against the current state. The UI hiding a button is not the control.
 - The Rovo write action goes through the same validation and is confirmed by the user in Rovo first.

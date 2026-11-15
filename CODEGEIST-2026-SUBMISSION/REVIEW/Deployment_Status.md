@@ -1,11 +1,11 @@
-# Deployment and installation
+# Deployment status
 
-## Current state (12 November 2026)
+## Current state (15 November 2026)
 
 | Item | State |
 |---|---|
 | Forge app | "T-Minus", registered in the author's Developer Space |
-| Production environment | Deployed; marked by Forge as eligible for "Runs on Atlassian" |
+| Production environment | Version 2.6.0 deployed on 15 November 2026 (no new scopes, so the installation updated without re-consent); marked by Forge as eligible for "Runs on Atlassian" |
 | Development environment | Deployed earlier; no longer installed anywhere |
 | Distribution | "Sharing with anyone", product: Jira |
 | Installation link | In `INSTALL_LINK.txt`; also behind the Install button on https://tminus.hayaix.tech |

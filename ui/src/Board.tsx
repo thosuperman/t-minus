@@ -65,7 +65,8 @@ export function Board({ view, projection: proj, planNow, busy, stale, act, onBac
   const pct = (t: number) => `${Math.max(0, Math.min(100, ((t - t0) / (t1 - t0)) * 100))}%`;
   const ticks = useMemo(() => {
     const out: number[] = [];
-    const step = t1 - t0 > 8 * 60 * MIN ? 120 * MIN : 60 * MIN;
+    // Whole hours, at most about nine labels, so a plan that runs long never crowds the axis.
+    const step = Math.max(1, Math.ceil((t1 - t0) / (9 * 60 * MIN))) * 60 * MIN;
     for (let t = plan.plannedStart; t < t1; t += step) out.push(t);
     return out;
   }, [t0, t1, plan.plannedStart]);

@@ -8,6 +8,8 @@ import { Actor, Command, DomainError, ExecEvent, ExecState, PlanDef, Projection,
 export interface JiraPort {
   /** Can the acting user edit issues in this project? */
   canEdit(projectKey: string): Promise<boolean>;
+  /** Can the acting user see this project? Plans of a project are only shown to people who can browse it. */
+  canBrowse?(projectKey: string): Promise<boolean>;
   /** Move the issue to a status in the given category. Best effort. */
   transition(issueKey: string, target: 'new' | 'indeterminate' | 'done'): Promise<{ ok: boolean; message?: string }>;
   comment(issueKey: string, text: string): Promise<{ ok: boolean; message?: string }>;
@@ -17,6 +19,15 @@ export interface JiraPort {
   createIssues(projectKey: string, steps: StepDef[]): Promise<Record<string, string>>;
   /** Look up display names for account ids. Called at read time only; results are never stored. */
   userNames(accountIds: string[]): Promise<Record<string, string>>;
+}
+
+/** Plan time as an offset from the planned start, with the UTC clock time: "T+4:46 (03:46 UTC)". */
+function planTimeLabel(p: PlanDef) {
+  return (ms: number) => {
+    const m = Math.round((ms - p.plannedStart) / 60_000);
+    const abs = Math.abs(m);
+    return `T${m < 0 ? '-' : '+'}${Math.floor(abs / 60)}:${String(abs % 60).padStart(2, '0')} (${new Date(ms).toISOString().slice(11, 16)} UTC)`;
+  };
 }
 
 export type NameResolver = (accountIds: string[]) => Promise<Record<string, string>>;
@@ -71,6 +82,29 @@ export function createService(store: Store, clock: () => number = () => Date.now
       await store.setHead(p.id, snap.seq);
     }
     return snap;
+  }
+
+  /** Plans linked to a Jira project are readable only by people who can browse that project. */
+  async function visible(ctx: Ctx, projectKey?: string): Promise<boolean> {
+    if (!projectKey || !ctx.jira?.canBrowse) return true;
+    try {
+      return await ctx.jira.canBrowse(projectKey);
+    } catch {
+      return false;
+    }
+  }
+
+  async function readable(ctx: Ctx, planId: string): Promise<PlanDef> {
+    const p = await plan(planId);
+    if (!(await visible(ctx, p.projectKey))) throw new DomainError('FORBIDDEN', 'You do not have access to the Jira project of this plan.');
+    return p;
+  }
+
+  async function visiblePlans(ctx: Ctx): Promise<PlanSummary[]> {
+    const list = await store.listPlans();
+    const keys = [...new Set(list.map((x) => x.projectKey).filter(Boolean) as string[])];
+    const ok = new Map(await Promise.all(keys.map(async (k) => [k, await visible(ctx, k)] as const)));
+    return list.filter((x) => !x.projectKey || ok.get(x.projectKey));
   }
 
   async function rolesOf(ctx: Ctx, p: PlanDef): Promise<Roles> {
@@ -164,12 +198,12 @@ export function createService(store: Store, clock: () => number = () => Date.now
   }
 
   return {
-    async listPlans(): Promise<PlanSummary[]> {
-      return store.listPlans();
+    async listPlans(ctx?: Ctx): Promise<PlanSummary[]> {
+      return ctx ? visiblePlans(ctx) : store.listPlans();
     },
 
     async getView(ctx: Ctx, planId: string): Promise<View> {
-      const p = await plan(planId);
+      const p = await readable(ctx, planId);
       const snap = await load(p);
       return named(ctx, p, snap, view(p, snap, await rolesOf(ctx, p)));
     },
@@ -187,7 +221,7 @@ export function createService(store: Store, clock: () => number = () => Date.now
     },
 
     async execute(ctx: Ctx, planId: string, cmd: Command): Promise<View> {
-      const p = await plan(planId);
+      const p = await readable(ctx, planId);
       const roles = await rolesOf(ctx, p);
       const { snap, event } = await commit(p, cmd, ctx, roles);
       const warnings = await sideEffects(p, event, ctx);
@@ -304,7 +338,7 @@ export function createService(store: Store, clock: () => number = () => Date.now
      * Every command still goes through normal validation, so a wrong cursor is rejected by the state rules.
      */
     async runDemoScriptChunk(ctx: Ctx, planId: string, cursor: number, budgetMs = 8000): Promise<{ view: View; next: number | null }> {
-      const p = await plan(planId);
+      const p = await readable(ctx, planId);
       if (!p.simulation) throw new DomainError('FORBIDDEN', 'The demo script only runs on a simulation plan.');
       const script = demoScript();
       if (!Number.isInteger(cursor) || cursor < 0 || cursor >= script.length) throw new DomainError('INVALID_INPUT', 'Invalid demo script position.');
@@ -330,8 +364,8 @@ export function createService(store: Store, clock: () => number = () => Date.now
       return { view: await named(ctx, p, snap, view(p, snap, roles, [...new Set(warnings)])), next: i < script.length ? i : null };
     },
 
-    async audit(planId: string): Promise<ExecEvent[]> {
-      const p = await plan(planId);
+    async audit(planId: string, ctx?: Ctx): Promise<ExecEvent[]> {
+      const p = ctx ? await readable(ctx, planId) : await plan(planId);
       const snap = await load(p);
       const out: ExecEvent[] = [];
       for (let from = 1; from <= snap.seq; from += 20) {
@@ -344,22 +378,19 @@ export function createService(store: Store, clock: () => number = () => Date.now
     },
 
     /** Read model for the Rovo agent. Every number comes from recorded state or the deterministic engine. */
-    async situation(planId?: string, resolver?: NameResolver) {
-      const list = await store.listPlans();
+    async situation(planId?: string, resolver?: NameResolver, ctx?: Ctx) {
+      const list = ctx ? await visiblePlans(ctx) : await store.listPlans();
       const id = planId ?? list[0]?.id;
       if (!id) return { found: false as const, message: 'No cutover plan exists yet.' };
       const p = await store.getPlan(id);
+      if (p && ctx && !(await visible(ctx, p.projectKey))) throw new DomainError('FORBIDDEN', 'You do not have access to the Jira project of this plan.');
       if (!p) return { found: false as const, message: `Plan ${id} was not found.`, plans: list.map((x) => ({ id: x.id, name: x.name })) };
       const snap = await load(p);
       const realNow = clock();
       const planNow = realNow + snap.state.clockOffsetMs;
       const proj = computeProjection(p, snap.state, planNow);
       // Times are given as an offset from the planned start ("T+4:46"), which is what the board shows next to every clock time.
-      const t = (ms: number) => {
-        const m = Math.round((ms - p.plannedStart) / 60_000);
-        const abs = Math.abs(m);
-        return `T${m < 0 ? '-' : '+'}${Math.floor(abs / 60)}:${String(abs % 60).padStart(2, '0')} (${new Date(ms).toISOString().slice(11, 16)} UTC)`;
-      };
+      const t = planTimeLabel(p);
       const title = (sid: string) => p.steps.find((s) => s.id === sid)!.title;
       const names = await resolveNames(resolver, accountIdsOf(p, snap));
       const person = (id?: string) => (id ? names[id] ?? 'a team member (name unavailable)' : undefined);
@@ -432,6 +463,17 @@ export function createService(store: Store, clock: () => number = () => Date.now
         inProgress: inProgress.map(stepInfo),
         delayed: proj.order.filter((sid) => snap.state.steps[sid].status !== 'done' && proj.steps[sid].slipMin > 0).map(stepInfo),
         awaitingDecision: proj.awaitingDecision.map((sid) => ({ id: sid, title: title(sid), kind: p.steps.find((q) => q.id === sid)!.kind })),
+        // Decisions not yet open: go/no-go checkpoints and the point of no return, with when they are projected to come up.
+        upcomingDecisions: p.steps
+          .filter((s) => (s.kind === 'gate' || s.kind === 'pnr') && snap.state.steps[s.id].status !== 'done' && !proj.awaitingDecision.includes(s.id))
+          .map((s) => ({
+            id: s.id,
+            title: s.title,
+            kind: s.kind,
+            projectedAt: t(proj.steps[s.id].start),
+            waitingFor: s.deps.filter((d) => snap.state.steps[d].status !== 'done'),
+            approvers: s.kind === 'gate' ? p.approvers.map((a) => person(a)) : undefined,
+          })),
         decisions: p.steps
           .filter((s) => snap.state.steps[s.id].decision)
           .map((s) => ({ id: s.id, decision: snap.state.steps[s.id].decision, by: person(snap.state.steps[s.id].decisionBy), note: snap.state.steps[s.id].decisionNote })),
@@ -483,12 +525,20 @@ export function createService(store: Store, clock: () => number = () => Date.now
       return { passed: checks.every((c) => c.pass), durationMs: clock() - started, checks };
     },
 
-    async stepImpact(planId: string, stepId: string) {
-      const p = await plan(planId);
+    async stepImpact(planId: string, stepId: string, ctx?: Ctx) {
+      const p = ctx ? await readable(ctx, planId) : await plan(planId);
       const snap = await load(p);
       const proj = computeProjection(p, snap.state, clock() + snap.state.clockOffsetMs);
       if (!proj.steps[stepId]) throw new DomainError('NOT_FOUND', `Step ${stepId} does not exist in this plan.`);
-      return impactOf(p, proj, stepId).map((i) => ({ ...i, title: p.steps.find((s) => s.id === i.id)!.title }));
+      const t = planTimeLabel(p);
+      return impactOf(p, proj, stepId).map((i) => ({
+        id: i.id,
+        title: p.steps.find((s) => s.id === i.id)!.title,
+        slipVsBaselineMin: i.slipMin,
+        onCriticalPath: i.critical,
+        projectedStart: t(i.projectedStart),
+        projectedEnd: t(i.projectedEnd),
+      }));
     },
   };
 }

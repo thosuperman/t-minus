@@ -1,6 +1,6 @@
 # Feature verification
 
-What was checked, where, and how. "Site" means the production build installed from the public link on `one-atlas-egic.atlassian.net`, driven through the real UI. "Tests" means the automated suite (53 tests, in-memory store and fake Jira). Dates: 11 and 12 November 2026.
+What was checked, where, and how. "Site" means the production build installed from the public link on `one-atlas-egic.atlassian.net`, driven through the real UI. "Tests" means the automated suite (57 tests, in-memory store and fake Jira). Dates: 11, 12 and 15 November 2026. On 15 November the production build was rechecked with `tools/capture/smoke.mjs` (8 of 8) and `tools/capture/rovo_check.mjs` (three real questions to the agent).
 
 ## A. Live go-live mission control
 
@@ -14,6 +14,7 @@ What was checked, where, and how. "Site" means the production build installed fr
 | Operational notes | Yes | Yes | From the board and through the Rovo agent |
 | Server-side timestamps and actor | Yes | Yes | Audit entries show server time; simulated plan time is flagged |
 | Execution history (audit trail) | Yes | Yes | Gapless sequence; tamper attempt on an existing entry is refused in tests |
+| Clearing a blocker keeps the blocked time in the projection | Not shown on the site | Yes (added 15 November) |
 | Status synchronised across sessions | Yes, two browser sessions of one account | Yes | Second session's blocker appeared on the first board within one polling cycle |
 | Several operators at once | Storage self-test on the site | Yes | Three concurrent starts: exactly one succeeds. Not tested with separate real accounts |
 
@@ -51,7 +52,10 @@ What was checked, where, and how. "Site" means the production build installed fr
 | Explains what limits the rollback window | Yes | Uses the engine's own explanation |
 | Identifies pending decisions | Yes | "No checkpoint is currently awaiting a decision", which was true at that moment |
 | Labels projections | Yes | "earliest possible time, assuming the blocker is resolved immediately" |
-| Executive update | Earlier run | Conversation starter present |
+| Executive update | Yes (15 November) | Five sentences: slip, both projected deadline misses, rollback window and deadline, next decision with its projected time |
+| Downstream impact of a step | Yes (15 November) | Named the reconciliation steps, GATE-1 and PNR-1 for MIG-3, with the same 77-minute slip as the board |
+| Next decision and its projected time | Yes (15 November) | "Finance sign-off ... projected at T+5:32", two minutes after the rollback decision deadline at T+5:30 |
+| Hides plans of projects the user cannot browse | Tests only | The agent ran under the real user's permission check on the site, so the allowed path is verified there; the refused path is covered by tests |
 | Write action with confirmation | Yes (development build) | Rovo showed a "Please review" card; the note appeared marked "via rovo" |
 
 An earlier answer called the plan "Halted" when a step was only blocked, and misattributed the rollback limit. The agent now receives the phase meaning and the limiting factor from the engine, and the prompt forbids inferring them. The answer recorded in the video is from after that fix.

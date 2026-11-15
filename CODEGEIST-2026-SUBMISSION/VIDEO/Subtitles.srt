@@ -3,7 +3,7 @@
 A finance system go-live is a long night of tightly ordered steps.
 
 2
-00:00:06,162 --> 00:00:13,213
+00:00:06,162 --> 00:00:12,923
 Data is migrated and reconciled, a bank payment file has a hard cutoff,
 
 3
@@ -55,7 +55,7 @@ T-Minus recalculates the schedule after every change, and lists every step that 
 Thirty minutes later, the bank payment file cutoff is projected to be missed.
 
 15
-00:01:37,203 --> 00:01:43,574
+00:01:37,203 --> 00:01:43,284
 This is plain arithmetic on recorded times and planned durations.
 
 16
@@ -75,7 +75,7 @@ It is limited by the point of no return, and by the time a rollback needs before
 T-Minus supports that decision. It never starts a rollback.
 
 20
-00:02:12,677 --> 00:02:18,327
+00:02:12,677 --> 00:02:18,037
 In a second browser session, an operator reports a blocker.
 
 21
@@ -91,7 +91,7 @@ The Situation Commander is a Rovo agent.
 We ask: are we still on schedule, and what decisions are needed right now?
 
 24
-00:02:34,014 --> 00:02:39,097
+00:02:34,014 --> 00:02:38,807
 It answers from the recorded plan state: what is late,
 
 25
@@ -99,7 +99,7 @@ It answers from the recorded plan state: what is late,
 what is blocked, and how long the rollback window is.
 
 26
-00:02:44,041 --> 00:02:51,278
+00:02:44,041 --> 00:02:50,988
 Here it reports ninety-four minutes of slip, the blocked migration with its reason,
 
 27

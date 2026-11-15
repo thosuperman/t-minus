@@ -1,6 +1,8 @@
 # Official rules checklist
 
-Checked against https://codegeist2026.devpost.com/rules, read in full on 10 November 2026 and spot-checked again on 11 November 2026 (dates, video, eligibility, new-project rule, bonus wording, judging criteria: unchanged).
+Checked against https://codegeist2026.devpost.com/rules, read in full on 10 November 2026 and again on 15 November 2026 (dates, eligibility, project and submission requirements, video, installation link, bonus wording, judging criteria: unchanged). The hackathon page shows the deadline as 23 December 2026, 5:00 am Japan time, which is the same moment.
+
+The submission form itself could not be opened: the Devpost account in the browser used for this check was not signed in or registered for the hackathon.
 
 | Rule | Requirement | Status | Evidence |
 |---|---|---|---|
@@ -16,8 +18,8 @@ Checked against https://codegeist2026.devpost.com/rules, read in full on 10 Nove
 | Video | Public on YouTube, link on the form | **You do this** | File ready: `VIDEO/Final_Demo_1080p.mp4` |
 | Video | No third-party trademarks or copyrighted music | Met | No music. Shows Jira and Rovo (the sponsor's products) and the app only. Demo data uses invented names |
 | Access | Installation link and all setup instructions | Met | `INSTALL_LINK.txt`, `DEVPOST/Installation_Instructions.md` |
-| Text description | Features and functionality | Met | `DEVPOST/Project_Description.md` |
-| Technology explanation | How the project meets the requirement | Met | `DEVPOST/Technologies_and_Integrations.md` |
+| Text description | Features and functionality | Met | `DEVPOST/Project_Overview.md` |
+| Technology explanation | How the project meets the requirement | Met | `DEVPOST/Technologies.md` |
 | Category and bonus | Selected, with bonus write-up | Met | `DEVPOST/Submission_Fields.md` |
 | Language | English | Met | All materials |
 | Bonus: Best Agents | Uses `rovo:agent`, or reusable `rovo:action` modules | Met | `rovo:agent` plus three `action` modules; verified in Rovo on the site |
