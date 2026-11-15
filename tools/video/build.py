@@ -172,12 +172,14 @@ def main():
         cues = [x for c in a['cues'] for x in split_cue(c)]
         inputs = ['-i', str(raw)]; filt = []; last = '[0:v]'
         for i, c in enumerate(cues):
+            # Hold each caption 0.25 s after the words end, but never into the next caption.
+            end = min(c['end'] + 0.25, cues[i + 1]['start'] - 0.04) if i + 1 < len(cues) else c['end'] + 0.25
             p = B / f'{sid}_cap{i}.png'; caption_png(c['text'], p)
             inputs += ['-loop', '1', '-t', f'{length:.3f}', '-i', str(p)]
             out = f'[v{i}]'
-            filt.append(f"{last}[{i + 1}:v]overlay=0:0:enable='between(t,{c['start']:.3f},{c['end'] + 0.25:.3f})'{out}")
+            filt.append(f"{last}[{i + 1}:v]overlay=0:0:enable='between(t,{c['start']:.3f},{end:.3f})'{out}")
             last = out
-            n += 1; srt.append(f"{n}\n{srt_time(clock + c['start'])} --> {srt_time(clock + c['end'] + 0.25)}\n{c['text']}\n")
+            n += 1; srt.append(f"{n}\n{srt_time(clock + c['start'])} --> {srt_time(clock + end)}\n{c['text']}\n")
         final = B / f'{sid}.mp4'
         run(['ffmpeg', '-y', '-v', 'error', *inputs, '-i', str(wavp), '-filter_complex', ';'.join(filt), '-map', last, '-map', f'{len(cues) + 1}:a',
              '-t', f'{length:.3f}', '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-r', str(FPS),
