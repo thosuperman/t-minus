@@ -8,8 +8,8 @@ What to enter on the Devpost submission form. The standard Devpost fields are li
 |---|---|
 | Project name | T-Minus: go-live mission control for Jira |
 | Elevator pitch | See `Project_Title_and_Tagline.md` (155 characters) |
-| About the project | `Project_Description.md`, from "Inspiration" to "What's next" |
-| Built with | atlassian-forge, jira, rovo, typescript, react, node.js |
+| About the project | `Project_Overview.md`, from "Inspiration" to "What's next" |
+| Built with | atlassian-forge, jira, rovo, typescript, react, node.js, vite, vitest |
 | Try it out links | https://tminus.hayaix.tech and https://github.com/thosuperman/t-minus |
 | Video demo link | **To add:** the YouTube URL after you upload `VIDEO/Final_Demo_1080p.mp4` as a public video |
 | Image gallery | The seven files in `SCREENSHOTS/`, in order. Captions are in `SCREENSHOTS/README.md` |
@@ -23,8 +23,8 @@ What to enter on the Devpost submission form. The standard Devpost fields are li
 | Bonus prize(s) entered | **Best Agents - Rovo/Assignable agents** |
 | Installation link for judges | The link in `INSTALL_LINK.txt` (also behind the Install button on https://tminus.hayaix.tech) |
 | Instructions to get the app working | `Installation_Instructions.md` |
-| Text description of features and functionality | `Project_Description.md`, "What it does" |
-| How the project meets the technology requirement | `Technologies_and_Integrations.md`, first section |
+| Text description of features and functionality | `Project_Overview.md`, "What it does" |
+| How the project meets the technology requirement | `Technologies.md`, first section |
 | Bonus prize write-up | Below |
 | Language | English throughout |
 
@@ -40,9 +40,10 @@ T-Minus includes a Rovo agent, the **T-Minus Situation Commander** (`rovo:agent`
 - **Grounded, not generated.** `get-situation` returns the output of the deterministic scheduling engine with three kinds of data labelled separately: recorded facts, calculated projections, and operator estimates. The prompt tells the agent to keep them apart, to call a projection a projection, and to say when a finish time is only the earliest possible.
 - **Reusable actions.** `get-situation` and `get-step-impact` are read actions that other agents can call as tools.
 - **A guarded write.** `add-operational-note` records a note in the audit trail. Rovo asks the user to confirm first, the acting user comes from the Forge context and never from the model's inputs, and the note goes through the same validation and permissions as the UI. The audit trail marks it "via rovo".
+- **Respects Jira permissions.** The read actions run the same project permission check as the board, as the person asking, so the agent never shows a plan of a project that person cannot browse.
 - **Limits on purpose.** The agent cannot start or complete steps, record decisions, or change the clock, and it is told never to recommend starting a rollback.
 
-Verified on a real site: the agent is listed in Rovo, answered from live plan data, and recorded a note after the confirmation card. See `REVIEW/Feature_Verification.md`.
+Verified on a real site: the agent is listed in Rovo, answered from live plan data, and recorded a note after the confirmation card. On 15 November it answered three questions (status and decisions, downstream impact of a delay, an executive update for the CFO) with the same figures as the board, and pointed out that the next go/no-go checkpoint is projected two minutes after the rollback decision deadline. See `REVIEW/Feature_Verification.md`.
 
 ## Declarations to be ready for
 

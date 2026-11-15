@@ -6,18 +6,20 @@ The name has been checked with one Marketplace search and one web search, not a 
 
 ## Status
 
-Deployed to the Forge **development** environment and installed on a Forge demo site (Jira). Checked there on 11 Nov 2026.
+Deployed to the Forge **production** environment and installed from the public sharing link on a Forge demo site (Jira). Last checked there on 15 Nov 2026.
 
 | Area | State |
 |---|---|
-| Scheduling engine, event log, permissions, Rovo action logic | 53 automated tests pass locally |
+| Scheduling engine, event log, permissions, Rovo action logic | 57 automated tests pass locally |
+| Deployed app end to end | `tools/capture/smoke.mjs` (8 of 8) and `tools/capture/rovo_check.mjs` (three real questions to the agent, answers matched the board), 15 Nov 2026 |
 | Board UI | Exercised in a local browser harness with two users; renders and works inside Jira on the demo site |
 | Forge storage concurrency | Verified on the site with the in-app self-test (5 of 5 checks) |
 | Jira integration | Issue creation, links, transitions and comments verified on the site |
 | Live execution | Start, complete, block, go/no-go, point of no return and two-session polling verified on the site |
 | Rovo agent | Read and write actions verified on the site |
+| Project access | Plans of a Jira project are shown only to people who can browse that project, on the board and through the agent |
 | Personal data | Only account ids are stored. Display names are looked up from Jira when a view is built and are never written to storage (covered by a test; verified visually on the site) |
-| Production deploy | Done (11 Nov 2026) |
+| Production deploy | Done (11 Nov 2026); version 2.6.0 on 15 Nov 2026 |
 | Sharing link | Created 11 Nov 2026: "Sharing with anyone", Jira. Saved in `INSTALL_LINK.txt` and on the homepage |
 | Install from the sharing link | Done on the demo site (12 Nov 2026): development build removed, production build installed from the public link and exercised end to end. Not tested on a second, never-used site |
 | Submission package | `CODEGEIST-2026-SUBMISSION/`: Devpost text, seven screenshots, the demo video script and subtitles, and review documents. The video file itself is kept out of Git |

@@ -42,4 +42,4 @@ Used: `mypermissions`, `search/jql`, `issue/bulk`, `issueLink`, `issue/{key}/tra
 
 ## Other technology
 
-TypeScript, React 19, Vite (UI bundle), Vitest (53 tests). The homepage is static HTML on Amazon S3 and CloudFront.
+TypeScript, React 19, Vite (UI bundle), Vitest (57 tests), Playwright end-to-end checks against the deployed app. The homepage is static HTML on Amazon S3 and CloudFront.
