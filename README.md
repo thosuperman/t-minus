@@ -203,3 +203,7 @@ The screenshots and the demo video are recorded from the installed app, not from
 | Build the video | `python3 tools/video/build.py` | Generates narration with the macOS `say` voice, renders captions, and assembles `Final_Demo_1080p.mp4` and `Subtitles.srt` with ffmpeg |
 
 Requirements: Google Chrome, `npm install` inside `tools/capture`, ffmpeg, Python 3 with Pillow, macOS for the `say` voice. The site and app ids in `tools/capture/lib.mjs` are those of the author's demo site.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
